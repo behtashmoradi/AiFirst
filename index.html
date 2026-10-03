@@ -6,7 +6,7 @@
 <title>Augen — Beyond Humanware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --color-black: #000;
@@ -20,8 +20,11 @@
     --color-orange: #ff5102;
     --color-yellow: #fca311;
     --color-white: #fff;
+    --color-charcoal: #161719;
+    --color-muted: #8b8b8d;
     /* PP Neue Montreal is a licensed font; Inter Tight is the free fallback */
     --font-base: "PP Neue Montreal", "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+    --font-wordmark: "Jost", var(--font-base);
     --header-height: 7.9rem;
     --grid-columnCount: 5;
     --grid-gutter: 2.3980815348vw;
@@ -39,22 +42,22 @@
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
-    scroll-behavior: smooth;
   }
 
   body {
     margin: 0;
     background-color: var(--color-greyLight);
     color: var(--color-offBlack);
-    font-size: 1.4rem;
-    line-height: 1.3;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -.01em;
     overflow-x: hidden;
   }
 
   a { color: inherit; text-decoration: none; }
   h1, h2, h3, p { margin: 0; font-weight: inherit; }
   ul { list-style: none; margin: 0; padding: 0; }
-  sup { font-size: .55em; vertical-align: super; line-height: 0; }
+  img { display: block; max-width: 100%; }
 
   .grid {
     display: grid;
@@ -62,224 +65,205 @@
     column-gap: var(--grid-gutter);
     padding-inline: var(--grid-outerGutter);
   }
+  .c2 { grid-column: 2 / 3; }
+  .c3 { grid-column: 3 / 4; }
+  .c3-end { grid-column: 3 / -1; }
+  .c2-end { grid-column: 2 / -1; }
 
-  .label { font-size: 1.1rem; line-height: 1.35; }
-  .label .muted { opacity: .5; display: block; }
+  .label { font-size: 1.5rem; line-height: 1.2; }
+  .label span { display: block; font-size: 1.4rem; color: var(--color-muted); }
+  .dark .label span { color: #6d6e70; }
   .blue { color: var(--color-blue); }
+  .wordmark { font-family: var(--font-wordmark); font-weight: 400; letter-spacing: .01em; line-height: 1; }
 
   /* ---------- Pills ---------- */
   .pill {
-    display: inline-flex; align-items: center; gap: .4rem;
-    height: 2.6rem; padding: 0 1.2rem;
+    display: inline-flex; align-items: center;
+    height: 3rem; padding: 0 1.4rem;
     border: 1px solid var(--color-blue); border-radius: 99px;
-    color: var(--color-blue); font-size: 1.2rem;
+    color: var(--color-blue); font-size: 1.6rem; letter-spacing: -.02em;
     transition: background .3s var(--ease), color .3s var(--ease);
   }
   .pill:hover, .pill.is-filled { background: var(--color-blue); color: var(--color-white); }
   .pill.is-filled:hover { background: transparent; color: var(--color-blue); }
+  .arrow-pill {
+    display: inline-grid; place-items: center; flex: none;
+    width: 2.8rem; height: 1.7rem; border: 1px solid var(--color-blue); border-radius: 99px;
+    color: var(--color-blue); transition: background .3s, color .3s;
+  }
+  .arrow-pill svg { width: 1rem; height: .8rem; }
 
   /* ---------- Header ---------- */
   .header {
-    position: fixed; top: 2.4rem; left: 50%; transform: translateX(-50%);
-    z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    position: absolute; top: 4.3rem; left: 50%; transform: translateX(-50%);
+    z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 1.9rem;
   }
-  .nav {
-    display: flex; align-items: center; gap: .4rem;
-    padding: .4rem; border-radius: 99px;
-    background: rgba(239, 239, 239, .75);
-    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  }
+  .nav { display: flex; align-items: center; gap: .6rem; }
   .nav__logo {
-    width: 4rem; height: 4rem; border-radius: 50%;
-    display: grid; place-items: center; background: var(--color-white);
+    width: 5.7rem; height: 5.7rem; border-radius: 50%;
+    display: grid; place-items: center; background: var(--color-greyLight); color: var(--color-offBlack);
   }
-  .nav__logo svg { width: 2.2rem; height: 2.2rem; }
-  .nav a:not(.nav__logo) {
-    padding: 0 2.2rem; height: 3.6rem; display: flex; align-items: center;
-    font-size: 1.2rem; border-radius: 99px; transition: background .25s;
+  .nav__logo svg { width: 3rem; height: 3rem; }
+  .nav__bar {
+    display: flex; height: 5.6rem; padding: 0 .9rem; border-radius: 1.2rem;
+    background: var(--color-greyLight);
   }
-  .nav a:not(.nav__logo):hover { background: var(--color-white); }
+  .nav__bar a {
+    width: 12rem; display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem; color: var(--color-greyDark); transition: color .25s;
+  }
+  .nav__bar a:hover { color: var(--color-blue); }
   .ticker {
-    display: flex; align-items: center; gap: 1.6rem;
-    padding: .5rem .6rem .5rem 1.6rem; border-radius: 99px;
-    background: rgba(239, 239, 239, .75); backdrop-filter: blur(16px);
-    font-size: 1rem; color: rgba(15, 16, 18, .5);
-    transition: opacity .4s var(--ease), transform .4s var(--ease);
+    display: flex; align-items: center; justify-content: flex-end; gap: 4.4rem;
+    width: 37.5rem; height: 3.7rem; padding: 0 1.2rem; border-radius: 1rem;
+    background: var(--color-greyLight); font-size: 1.4rem; color: var(--color-muted);
   }
-  .ticker__btn {
-    width: 2.2rem; height: 1.4rem; border-radius: 99px;
-    border: 1px solid var(--color-blue); display: grid; place-items: center;
-  }
-  .ticker__btn::after { content: ""; width: .4rem; height: .4rem; border-radius: 50%; background: var(--color-blue); }
-  .header.is-scrolled .ticker { opacity: 0; transform: translateY(-.6rem); pointer-events: none; }
+  .ticker:hover .arrow-pill, .overview__link:hover .arrow-pill { background: var(--color-blue); color: var(--color-white); }
 
   /* ---------- Hero ---------- */
   .hero {
-    position: relative; height: 100vh; min-height: 64rem;
-    background: var(--color-white); overflow: hidden;
+    position: relative; height: min(100vh, 74.4vw); min-height: 60rem;
+    background: #fefefe; overflow: hidden;
   }
   .hero__portrait {
-    position: absolute; left: 50%; top: 50%; transform: translate(-30%, -46%);
-    width: min(58vw, 72rem); aspect-ratio: 1 / 1.05;
+    position: absolute; left: 31.81vw; top: 13.05vw; width: 68.19vw; height: auto;
   }
-  .hero__portrait svg { width: 100%; height: 100%; }
-  .hero__copy {
-    position: absolute; left: var(--grid-outerGutter); bottom: 26vh;
-  }
-  .wordmark { font-size: 2rem; font-weight: 500; letter-spacing: -.02em; }
-  .hero__title { font-size: 2.8rem; letter-spacing: -.02em; margin-top: .4rem; }
-  .hero__explore { display: flex; align-items: center; gap: .6rem; margin-top: 2.4rem; }
-  .hero__explore > span { font-size: 1.2rem; opacity: .5; margin-right: .4rem; }
+  .hero__copy { position: absolute; left: var(--grid-outerGutter); bottom: 15.82vw; }
+  .hero .wordmark { font-size: 2.8rem; }
+  .hero__title { font-size: 3.1rem; letter-spacing: -.025em; margin-top: 1.9rem; }
+  .hero__explore { display: flex; align-items: center; gap: .5rem; margin-top: 3.4rem; }
+  .hero__explore > span { font-size: 1.6rem; color: var(--color-muted); margin-right: .2rem; }
   .scroll-cue {
-    position: absolute; left: var(--grid-outerGutter); bottom: 6vh;
-    width: 2.8rem; height: 2.8rem; border-radius: 50%;
-    border: 1px solid rgba(15, 16, 18, .15); display: grid; place-items: center;
+    position: absolute; left: var(--grid-outerGutter); bottom: 4.4vw;
+    width: 2.2rem; height: 5rem; border-radius: 1.1rem;
+    background: var(--color-greyLight); display: grid; place-items: center;
   }
-  .scroll-cue svg { width: 1rem; animation: bob 2s var(--ease) infinite; }
+  .scroll-cue svg { width: .8rem; animation: bob 2s var(--ease) infinite; }
   @keyframes bob { 50% { transform: translateY(.3rem); } }
 
   /* ---------- Overview ---------- */
-  .overview { padding-block: 18rem 22rem; background: var(--color-greyLight); }
-  .overview .label { grid-column: 1 / 2; padding-top: .6rem; }
-  .overview__body { grid-column: 2 / 5; max-width: 52rem; }
-  .overview__text { font-size: 3.2rem; line-height: 1.2; letter-spacing: -.02em; }
+  .overview { height: 64.4rem; padding-top: 18.8rem; background: var(--color-greyLight); align-content: start; }
+  .overview__text { font-size: 3rem; line-height: 1.25; letter-spacing: -.025em; white-space: nowrap; }
   .overview__link {
-    display: inline-flex; align-items: center; gap: 1.6rem; margin-top: 4rem;
-    color: var(--color-blue); font-size: 1.2rem;
+    display: inline-flex; align-items: center; gap: 2.6rem; margin-top: 6.3rem;
+    color: var(--color-blue); font-size: 1.6rem;
   }
-  .overview__link i {
-    width: 2.6rem; height: 1.6rem; border: 1px solid var(--color-blue); border-radius: 99px;
-    display: grid; place-items: center; font-style: normal; font-size: .9rem;
-    transition: background .3s, color .3s;
-  }
-  .overview__link:hover i { background: var(--color-blue); color: var(--color-white); }
 
-  /* ---------- Purpose (dark) ---------- */
-  .purpose { background: var(--color-greyDark); color: var(--color-white); padding-block: 12rem 10rem; }
-  .purpose__intro { grid-column: 2 / 5; margin-bottom: 8rem; font-size: 1.2rem; }
-  .rows { grid-column: 1 / -1; }
-  .row {
-    display: grid; grid-template-columns: repeat(var(--grid-columnCount), 1fr);
-    column-gap: var(--grid-gutter); align-items: end;
-    padding-block: 3.2rem; border-bottom: 1px solid rgba(255, 255, 255, .1);
-  }
-  .row:last-child { border-bottom: 0; }
-  .row .label .muted { opacity: .4; }
+  /* ---------- Purpose ---------- */
+  .purpose { height: 63rem; padding-top: 9.5rem; background: var(--color-charcoal); color: var(--color-white); align-content: start; }
+  .purpose__intro { font-size: 1.6rem; line-height: 1.3; margin-bottom: 10.3rem; }
+  .row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
+  .row .label { padding-top: .4rem; }
   .row h3 {
-    grid-column: 2 / -1; font-size: 3.2rem; letter-spacing: -.02em; line-height: 1.1;
-    opacity: .35; transition: opacity .6s var(--ease);
+    grid-column: 3 / -1; font-size: 3rem; line-height: 1.2; letter-spacing: -.025em;
+    padding-bottom: 2.7rem; margin-bottom: 5.2rem; border-bottom: 1px solid rgba(255, 255, 255, .1);
+    transition: color .5s var(--ease);
   }
-  .row.is-active h3 { opacity: 1; }
+  .row:last-child h3 { border-bottom: 0; margin-bottom: 0; }
+  .row:nth-child(3) h3 { color: #c9c9ca; }
+  .row:nth-child(4) h3 { color: #8e8e90; }
+  .row:hover h3 { color: var(--color-white); }
 
   /* ---------- Identity ---------- */
-  .identity { background: var(--color-offBlack); color: var(--color-white); padding-block: 10rem 14rem; }
-  .facts { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gutter); }
-  .facts .muted { opacity: .4; font-size: 1.1rem; display: block; margin-bottom: 1.6rem; }
-  .facts p { font-size: 1.8rem; line-height: 1.2; letter-spacing: -.01em; }
-  .divider { grid-column: 1 / -1; height: 1px; background: rgba(255, 255, 255, .12); margin-block: 8rem; }
-  .talk .label { grid-column: 1 / 2; }
-  .talk__items { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--grid-gutter); }
-  .acronym { font-size: 1.8rem; letter-spacing: -.01em; }
-  .acronym b { color: var(--color-blue); font-weight: 350; }
-  .acronym + p { margin-top: 2.4rem; font-size: 1.1rem; line-height: 1.3; max-width: 10rem; opacity: .85; }
+  .identity { height: 56.2rem; padding-top: 6.4rem; background: var(--color-offBlack); color: var(--color-white); align-content: start; }
+  .fact .dash { display: block; width: 1rem; height: 1px; background: var(--color-blue); margin-bottom: 1.6rem; }
+  .fact .muted { display: block; font-size: 1.4rem; color: var(--color-muted); }
+  .fact p { margin-top: 2.4rem; font-size: 2.1rem; line-height: 1.3; letter-spacing: -.025em; }
+  .divider { grid-column: 2 / -1; height: 1px; background: rgba(255, 255, 255, .18); margin-block: 10.4rem 5.6rem; }
+  .talk__items { grid-column: 3 / -1; display: flex; }
+  .talk__items > div { width: 13.26vw; }
+  .acronym { font-size: 2.1rem; letter-spacing: -.02em; line-height: 1.2; }
+  .acronym b { color: var(--color-blue); font-weight: 300; }
+  .acronym sup { font-size: 1.4rem; vertical-align: 1rem; margin-left: .3rem; line-height: 0; }
+  .acronym + p { margin-top: 3.3rem; font-size: 1.4rem; line-height: 1.3; width: 9rem; }
 
   /* ---------- Product ---------- */
   .product {
-    background: var(--color-offWhite); padding-block: 12rem 10rem;
-    display: flex; flex-direction: column; align-items: center; text-align: center;
+    position: relative; height: 93.4rem; padding-top: 12.2rem;
+    background: var(--color-offWhite); display: flex; flex-direction: column; align-items: center;
   }
   .product__badge {
-    width: 3.6rem; height: 3.6rem; background: var(--color-offBlack); border-radius: .4rem;
-    display: grid; place-items: center;
+    width: 3.5rem; height: 3.5rem; border-radius: .3rem;
+    background: var(--color-offBlack); color: var(--color-white); display: grid; place-items: center;
   }
-  .product__badge svg { width: 2rem; height: 2rem; }
-  .product__eyebrow { margin-top: 2.4rem; font-size: 1.3rem; }
-  .device { width: min(70vw, 42rem); margin-block: 6rem 4rem; }
-  .device svg { width: 100%; height: auto; display: block; }
-  .device svg .spin { transform-origin: 50% 50%; animation: float 6s ease-in-out infinite; }
-  @keyframes float { 50% { transform: translateY(-8px) rotate(-1.5deg); } }
+  .product__badge svg { width: 2.2rem; height: 2.2rem; }
+  .product__eyebrow { margin-top: 3.1rem; font-size: 1.6rem; }
+  .device { width: 29rem; margin-top: 6.9rem; animation: float 6s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-.8rem); } }
   .product__cta {
-    align-self: flex-end; margin-right: var(--grid-outerGutter);
-    text-align: left; margin-top: 4rem;
+    position: absolute; top: 78.4rem;
+    right: calc(var(--grid-outerGutter) + (100vw - 2 * var(--grid-outerGutter) - 4 * var(--grid-gutter)) / 5 + var(--grid-gutter));
+    display: flex; flex-direction: column; align-items: flex-end; gap: 2.8rem;
   }
-  .product__cta p { font-size: 1.2rem; margin-bottom: 1.2rem; }
-  .product__cta div { display: flex; gap: .6rem; }
+  .product__cta div { display: flex; gap: .8rem; }
+  .product__cta .pill { height: 2.8rem; }
 
-  /* ---------- Statement / Blue / Updates ---------- */
-  .statement {
-    background: var(--color-offBlack); color: var(--color-white);
-    min-height: 120vh; display: flex; align-items: center;
-  }
-  .statement h2 {
-    grid-column: 1 / -1; font-size: clamp(4.4rem, 9vw, 14rem);
-    line-height: .95; letter-spacing: -.045em;
-  }
-  .statement h2 span { display: block; opacity: .15; transition: opacity .8s var(--ease); }
-  .statement h2 span.is-active { opacity: 1; }
-
-  .feature {
-    background: var(--color-blue); color: var(--color-white);
-    min-height: 80vh; display: flex; align-items: center; padding-block: 12rem;
-  }
-  .feature .label { grid-column: 1 / 2; }
-  .feature .label .muted { opacity: .65; }
-  .feature p.big { grid-column: 2 / -1; font-size: clamp(3.2rem, 4.6vw, 6.4rem); line-height: 1.05; letter-spacing: -.03em; max-width: 18ch; }
-
-  .updates { background: var(--color-greyLight); padding-block: 14rem; }
-  .updates .label { grid-column: 1 / 2; }
-  .updates ul { grid-column: 2 / -1; border-top: 1px solid rgba(15, 16, 18, .12); }
-  .updates li a {
-    display: grid; grid-template-columns: 10rem 1fr auto; align-items: baseline; gap: 2rem;
-    padding-block: 2.4rem; border-bottom: 1px solid rgba(15, 16, 18, .12);
-    transition: padding .4s var(--ease), color .3s;
-  }
-  .updates li a:hover { padding-left: 1.2rem; color: var(--color-blue); }
-  .updates time { font-size: 1.1rem; opacity: .5; }
-  .updates h3 { font-size: 2.2rem; letter-spacing: -.015em; }
-  .updates .arrow { font-size: 1.6rem; }
+  /* ---------- Content slots (empty in the reference; filled by scroll-driven media on the live site) ---------- */
+  .slot-dark { height: 122.5rem; background: var(--color-offBlack); }
+  .slot-blue { height: 46.7rem; background: var(--color-blue); }
+  .slot-light { height: 46.1rem; background: var(--color-offWhite); }
 
   /* ---------- Footer ---------- */
-  .footer { background: var(--color-offBlack); color: var(--color-white); padding-block: 6rem 4rem; }
-  .footer .wordmark { grid-column: 1 / 3; font-size: 2.4rem; }
-  .footer__cols { grid-column: 3 / -1; display: grid; gap: 10rem; }
-  .footer__col { display: grid; grid-template-columns: 1fr 2fr; }
-  .footer__col .label .muted { opacity: .4; }
-  .footer__col ul a { font-size: 2.6rem; line-height: 1.12; letter-spacing: -.02em; transition: color .25s; }
+  .footer {
+    position: relative; height: 62.1rem; padding: 3.6rem var(--grid-outerGutter) 0;
+    background: var(--color-offBlack); color: var(--color-white);
+  }
+  .footer .wordmark { font-size: 3.5rem; }
+  .footer__cols { position: absolute; top: 4.2rem; left: calc(var(--grid-outerGutter) + 57.58%  * (1 - 2 * 0.047961630695)); }
+  .footer__col { display: flex; }
+  .footer__col + .footer__col { margin-top: 11.1rem; }
+  .footer__col .label { width: 13.5rem; padding-top: .3rem; }
+  .footer__col .label span { color: #6d6e70; }
+  .footer__col ul a { font-size: 3.1rem; line-height: 1.21; letter-spacing: -.035em; transition: color .25s; }
   .footer__col ul a:hover { color: var(--color-blue); }
-  .footer__bottom { grid-column: 1 / -1; display: flex; align-items: flex-end; justify-content: space-between; margin-top: 10rem; }
-  .footer__mark svg { width: 6.4rem; height: 6.4rem; }
-  .footer__legal { display: flex; gap: 2.4rem; font-size: 1.1rem; opacity: .6; }
-  .footer__legal a:hover { opacity: 1; color: var(--color-blue); }
-  .footer__loc { font-size: 1.1rem; opacity: .4; }
-
-  /* ---------- Reveal ---------- */
-  .reveal { opacity: 0; transform: translateY(2.4rem); transition: opacity 1s var(--ease), transform 1s var(--ease); }
-  .reveal.is-in { opacity: 1; transform: none; }
+  .footer__mark { position: absolute; left: var(--grid-outerGutter); top: 51.8rem; color: #5b5c5e; }
+  .footer__mark svg { width: 6.6rem; height: 6.6rem; }
+  .footer__legal {
+    position: absolute; top: 56.9rem; left: calc(var(--grid-outerGutter) + 57.58% * (1 - 2 * 0.047961630695));
+    display: flex; gap: 2.1rem; font-size: 1.6rem; color: #9a9b9d; letter-spacing: -.03em;
+  }
+  .footer__legal a:hover { color: var(--color-white); }
+  .footer__loc { position: absolute; top: 56.9rem; right: var(--grid-outerGutter); font-size: 1.6rem; color: #5b5c5e; }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 800px) {
     :root { --grid-outerGutter: 1.6rem; --grid-gutter: 1.2rem; }
-    .nav a:not(.nav__logo) { padding: 0 1rem; font-size: 1.1rem; }
-    .nav a.hide-sm { display: none; }
-    .hero__portrait { width: 110vw; transform: translate(-40%, -60%); }
-    .hero__copy { bottom: 18vh; }
-    .overview .label, .overview__body, .purpose__intro, .facts, .talk .label, .talk__items,
-    .feature .label, .feature p.big, .updates .label, .updates ul,
-    .footer .wordmark, .footer__cols { grid-column: 1 / -1; }
-    .overview .label, .talk .label, .feature .label, .updates .label { margin-bottom: 3.2rem; }
-    .overview__text, .row h3 { font-size: 2.4rem; }
-    .row { grid-template-columns: 1fr; gap: 1.2rem; }
-    .row h3 { grid-column: 1; }
-    .facts, .talk__items { grid-template-columns: 1fr 1fr; row-gap: 4rem; }
-    .updates li a { grid-template-columns: 1fr auto; }
-    .updates time { grid-column: 1 / -1; }
-    .footer__cols { margin-top: 6rem; gap: 6rem; }
-    .footer__bottom { flex-wrap: wrap; gap: 2.4rem; }
+    .header { position: absolute; top: 1.6rem; width: calc(100% - 3.2rem); }
+    .nav { width: 100%; }
+    .nav__logo { width: 4.4rem; height: 4.4rem; flex: none; }
+    .nav__bar { flex: 1; height: 4.4rem; padding: 0 .4rem; justify-content: space-between; }
+    .nav__bar a { width: auto; padding: 0 .8rem; font-size: 1.4rem; }
+    .nav__bar a.hide-sm { display: none; }
+    .ticker { width: 100%; justify-content: space-between; gap: 1rem; font-size: 1.3rem; }
+    .hero { height: 100svh; }
+    .hero__portrait { left: -4vw; top: 14vh; width: 125vw; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+    .hero__copy { bottom: 14rem; }
+    .scroll-cue { bottom: 4rem; }
+    .overview, .purpose, .identity, .product, .footer { height: auto; padding-bottom: 10rem; }
+    .overview .label, .purpose .label, .identity .label { grid-column: 1 / -1; margin-bottom: 2.4rem; }
+    .c3-end, .c2-end, .c3, .divider, .talk__items { grid-column: 1 / -1; }
+    .overview__text { font-size: 2.4rem; white-space: normal; }
+    .overview__text br { display: none; }
+    .row { display: block; }
+    .row h3 { font-size: 2.4rem; margin-top: 1.2rem; }
+    .identity .fact { grid-column: 1 / -1; margin-bottom: 4rem; }
+    .fact p { margin-top: 1.6rem; }
+    .divider { margin-block: 2rem 4rem; }
+    .talk__items { gap: 2rem; }
+    .talk__items > div { width: auto; flex: 1; }
+    .product__cta { position: static; align-self: flex-end; margin: 6rem 1.6rem 0 0; }
+    .slot-dark { height: 60rem; } .slot-blue, .slot-light { height: 30rem; }
+    .footer__cols, .footer__legal, .footer__mark, .footer__loc { position: static; }
+    .footer__cols { margin-top: 6rem; }
+    .footer__col + .footer__col { margin-top: 6rem; }
+    .footer__col .label { width: 9rem; }
+    .footer__mark { margin-top: 8rem; }
+    .footer__legal { flex-wrap: wrap; margin-top: 3rem; gap: 1.2rem 2rem; }
+    .footer__loc { margin-top: 1.6rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -287,235 +271,123 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="star" viewBox="0 0 40 40">
-    <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-      <line x1="20" y1="3" x2="20" y2="37"/>
-      <line x1="3" y1="20" x2="37" y2="20"/>
-      <line x1="8" y1="8" x2="32" y2="32"/>
-      <line x1="32" y1="8" x2="8" y2="32"/>
-      <line x1="12" y1="4.5" x2="28" y2="35.5"/>
-      <line x1="28" y1="4.5" x2="12" y2="35.5"/>
-      <line x1="4.5" y1="12" x2="35.5" y2="28"/>
-      <line x1="35.5" y1="12" x2="4.5" y2="28"/>
+    <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none">
+      <path d="M20 2v13M20 25v13M2 20h13M25 20h13M7.3 7.3l9.2 9.2M23.5 23.5l9.2 9.2M32.7 7.3l-9.2 9.2M16.5 23.5l-9.2 9.2"/>
     </g>
   </symbol>
+  <symbol id="arrow-r" viewBox="0 0 10 8"><path d="M0 4h9M6 1l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
 </svg>
 
-<header class="header" id="header">
+<header class="header">
   <nav class="nav" aria-label="Main">
     <a class="nav__logo" href="#top" aria-label="Augen home"><svg><use href="#star"/></svg></a>
-    <a href="#product">Wearable</a>
-    <a href="#feature">Neural</a>
-    <a href="#identity" class="hide-sm">Programs</a>
-    <a href="#updates">Updates</a>
-    <a href="#" class="hide-sm">Search</a>
+    <div class="nav__bar">
+      <a href="#product">Wearable</a>
+      <a href="#neural">Neural</a>
+      <a href="#identity" class="hide-sm">Programs</a>
+      <a href="#updates">Updates</a>
+      <a href="#" class="hide-sm">Search</a>
+    </div>
   </nav>
-  <a class="ticker" href="#updates">Discover the future in every update <span class="ticker__btn"></span></a>
+  <a class="ticker" href="#updates">Discover the future in every update <span class="arrow-pill"><svg><use href="#arrow-r"/></svg></span></a>
 </header>
 
 <main id="top">
 
-  <!-- Hero -->
   <section class="hero">
-    <div class="hero__portrait" aria-hidden="true">
-      <!-- Placeholder silhouette — swap for a real portrait image -->
-      <svg viewBox="0 0 600 630">
-        <defs>
-          <radialGradient id="skin" cx="45%" cy="30%" r="70%">
-            <stop offset="0" stop-color="#8a6a58"/>
-            <stop offset=".45" stop-color="#3d2a22"/>
-            <stop offset="1" stop-color="#1a1210"/>
-          </radialGradient>
-          <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset=".35" stop-color="#fff" stop-opacity="1"/>
-            <stop offset=".85" stop-color="#fff" stop-opacity="0"/>
-          </linearGradient>
-          <linearGradient id="fadeX" x1="0" y1="0" x2="1" y2="0">
-            <stop offset=".4" stop-color="#fff" stop-opacity="1"/>
-            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-          </linearGradient>
-          <mask id="m"><rect width="600" height="630" fill="url(#fade)"/></mask>
-          <mask id="mx"><rect width="600" height="630" fill="url(#fadeX)"/></mask>
-          <filter id="soft"><feGaussianBlur stdDeviation="2"/></filter>
-        </defs>
-        <g mask="url(#m)"><g mask="url(#mx)" filter="url(#soft)">
-          <path fill="url(#skin)" d="M300 40c95 0 165 70 168 165 2 55-20 98-40 130-14 22-18 48-14 80l14 100c40 30 90 60 140 80v35H160l20-60c8-30 4-62-10-88-10-18-28-24-46-26-18-2-28-12-26-26l4-18c-10-6-14-14-10-22 4-6 10-8 10-14-6-4-10-10-8-16l10-12c-12-4-24-12-20-24 6-18 32-40 30-70-2-40-4-60 10-100C146 92 210 40 300 40z"/>
-        </g></g>
-      </svg>
-    </div>
-    <div class="hero__copy reveal">
+    <img class="hero__portrait" src="assets/hero-portrait.png" alt="Profile of a woman with eyes closed">
+    <div class="hero__copy">
       <p class="wordmark">augen</p>
       <h1 class="hero__title">Beyond Humanware.</h1>
       <div class="hero__explore">
         <span>Explore</span>
-        <a class="pill" href="#product">A<sup>1</sup> Sense</a>
-        <a class="pill" href="#product">B<sup>1</sup> Eye</a>
-        <a class="pill" href="#feature">A<sup>1</sup> Neuro</a>
+        <a class="pill" href="#product">A¹ Sense</a>
+        <a class="pill" href="#product">B¹ Eye</a>
+        <a class="pill" href="#neural">A¹ Neuro</a>
       </div>
     </div>
     <a class="scroll-cue" href="#overview" aria-label="Scroll down">
-      <svg viewBox="0 0 10 14" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 1v12M1 9l4 4 4-4"/></svg>
+      <svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 0v11M1 8l3 3 3-3"/></svg>
     </a>
   </section>
 
-  <!-- Overview -->
   <section class="overview grid" id="overview">
-    <p class="label reveal"><span class="muted">Overview</span>Breakthrough</p>
-    <div class="overview__body reveal">
+    <p class="label c2"><span>Overview</span>Breakthrough</p>
+    <div class="c3-end">
       <p class="overview__text">
-        Augen Pro is the first to engineer AI-driven, general-purpose Computing designed
+        Augen Pro is the first to engineer<br>AI-driven,<br>general-purpose Computing<br>designed<br>
         <span class="blue">to improve people’s life.</span>
       </p>
-      <a class="overview__link" href="#purpose"><i>→</i> Research insight</a>
+      <a class="overview__link" href="#purpose"><span class="arrow-pill"><svg><use href="#arrow-r"/></svg></span>Research Insight</a>
     </div>
   </section>
 
-  <!-- Purpose -->
-  <section class="purpose grid" id="purpose">
-    <p class="purpose__intro reveal">AI Augen Pro<br><span class="blue">We make humans better</span></p>
-    <div class="rows">
-      <div class="row reveal"><p class="label"><span class="muted">01</span>Our Mission</p><h3>Smarter, smaller AI health tools</h3></div>
-      <div class="row reveal"><p class="label"><span class="muted">02</span>Our Vision</p><h3>Lead the future of Invisible Computing</h3></div>
-      <div class="row reveal"><p class="label"><span class="muted">03</span>Our Ambition</p><h3>Simplify Heads-Up Computing</h3></div>
-    </div>
+  <section class="purpose grid dark" id="purpose">
+    <p class="purpose__intro c3-end">At Augen Pro<br><span class="blue">We make humans better</span></p>
+    <div class="row"><p class="label c2"><span>0.1</span>Our Mission</p><h3>Smarter, smaller AI health tools</h3></div>
+    <div class="row"><p class="label c2"><span>0.2</span>Our Vision</p><h3>Lead the future of Invisible Computing</h3></div>
+    <div class="row"><p class="label c2"><span>0.3</span>Our Ambition</p><h3>Simplify Heads-Up Computing</h3></div>
   </section>
 
-  <!-- Identity -->
-  <section class="identity grid" id="identity">
-    <div class="facts reveal">
-      <div><span class="muted">Industries</span><p>Wearable &amp; Neural technologies</p></div>
-      <div><span class="muted">Core Business</span><p>AI Wearable technologies</p></div>
-      <div><span class="muted">Domain</span><p>augen.pro</p></div>
-    </div>
+  <section class="identity grid dark" id="identity">
+    <div class="fact c3"><span class="dash"></span><span class="muted">Industries</span><p>Wearable &amp; Neural<br>technologies</p></div>
+    <div class="fact"><span class="dash"></span><span class="muted">Core Business</span><p>AI Wearable<br>technologies</p></div>
+    <div class="fact"><span class="dash"></span><span class="muted">Domain</span><p>augen.pro</p></div>
     <div class="divider"></div>
-    <div class="talk grid" style="grid-column:1/-1;padding:0">
-      <p class="label reveal"><span class="muted">04</span>How We Talk</p>
-      <div class="talk__items">
-        <div class="reveal"><p class="acronym"><b>[</b> Pha<sup>1</sup> <b>]</b></p><p>Pro Humanity Approach</p></div>
-        <div class="reveal"><p class="acronym"><b>[</b> ICT<sup>2</sup> <b>]</b></p><p>Invisible Computing Technologies</p></div>
-        <div class="reveal"><p class="acronym"><b>[</b> AIWC<sup>3</sup> <b>]</b></p><p>Artificial Intelligence Wearable Company</p></div>
-      </div>
+    <p class="label c2"><span>0.4</span>How We Talk</p>
+    <div class="talk__items">
+      <div><p class="acronym"><b>[</b> Pha<sup>1</sup> <b>]</b></p><p>Pro Humanity Approach</p></div>
+      <div><p class="acronym"><b>[</b> ICT<sup>2</sup> <b>]</b></p><p>Invisible Computing Technologies</p></div>
+      <div><p class="acronym"><b>[</b> AIWC<sup>3</sup> <b>]</b></p><p>Artificial Intelligence Wearable Company</p></div>
     </div>
   </section>
 
-  <!-- Product -->
   <section class="product" id="product">
-    <div class="product__badge reveal"><svg style="color:#fff"><use href="#star"/></svg></div>
-    <p class="product__eyebrow reveal">Meet Our</p>
-    <div class="device reveal" aria-label="A¹ Sense device">
-      <!-- Placeholder product render — swap for a real product image -->
-      <svg viewBox="0 0 420 300">
-        <defs>
-          <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#6b6e74"/><stop offset=".35" stop-color="#2a2c30"/><stop offset="1" stop-color="#0c0d0f"/>
-          </linearGradient>
-          <radialGradient id="face" cx="40%" cy="35%" r="70%">
-            <stop offset="0" stop-color="#3a3d43"/><stop offset="1" stop-color="#121316"/>
-          </radialGradient>
-          <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
-        </defs>
-        <ellipse cx="215" cy="250" rx="140" ry="16" fill="#000" opacity=".18" filter="url(#shadow)"/>
-        <g class="spin">
-          <g transform="rotate(-28 150 150)">
-            <rect x="70" y="80" width="170" height="130" rx="58" fill="url(#shell)"/>
-            <rect x="82" y="88" width="146" height="108" rx="50" fill="url(#face)"/>
-            <path d="M140 128l16 14m0-14l-16 14" stroke="#9aa0a8" stroke-width="2" stroke-linecap="round"/>
-          </g>
-          <g transform="rotate(-28 270 170)">
-            <rect x="190" y="105" width="170" height="130" rx="58" fill="url(#shell)"/>
-            <circle cx="275" cy="170" r="44" fill="#08090a" stroke="#2d3036" stroke-width="3"/>
-            <g fill="#3ea0ff">
-              <circle cx="275" cy="136" r="2.2"/><circle cx="299" cy="146" r="2.2"/><circle cx="309" cy="170" r="2.2"/>
-              <circle cx="299" cy="194" r="2.2"/><circle cx="275" cy="204" r="2.2"/><circle cx="251" cy="194" r="2.2"/>
-              <circle cx="241" cy="170" r="2.2"/><circle cx="251" cy="146" r="2.2"/>
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <div class="product__cta reveal">
+    <div class="product__badge"><svg><use href="#star"/></svg></div>
+    <p class="product__eyebrow">Meet Our</p>
+    <img class="device" src="assets/device.png" alt="A¹ Sense wearable device">
+    <div class="product__cta">
       <p>Explore in depth</p>
       <div>
-        <a class="pill is-filled" href="#feature">A<sup>1</sup> Sense</a>
-        <a class="pill" href="#feature">B<sup>1</sup> Eye</a>
+        <a class="pill is-filled" href="#neural">A¹ Sense</a>
+        <a class="pill" href="#neural">B¹ Eye</a>
       </div>
     </div>
   </section>
 
-  <!-- Statement -->
-  <section class="statement grid" id="statement">
-    <h2>
-      <span>Invisible</span>
-      <span>by design.</span>
-      <span class="blue">Human</span>
-      <span class="blue">by nature.</span>
-    </h2>
-  </section>
-
-  <!-- Feature -->
-  <section class="feature grid" id="feature">
-    <p class="label reveal"><span class="muted">05</span>A<sup>1</sup> Neuro</p>
-    <p class="big reveal">Heads-up, hands-free intelligence that listens to the body before it speaks.</p>
-  </section>
-
-  <!-- Updates -->
-  <section class="updates grid" id="updates">
-    <p class="label reveal"><span class="muted">06</span>Updates</p>
-    <ul>
-      <li class="reveal"><a href="#"><time>Sep 2026</time><h3>A¹ Sense enters clinical pilot programs</h3><span class="arrow">→</span></a></li>
-      <li class="reveal"><a href="#"><time>Jul 2026</time><h3>Research insight: the case for Invisible Computing</h3><span class="arrow">→</span></a></li>
-      <li class="reveal"><a href="#"><time>May 2026</time><h3>Introducing B¹ Eye, a heads-up companion</h3><span class="arrow">→</span></a></li>
-    </ul>
-  </section>
+  <!-- Empty in the reference screenshot: reserved for scroll-driven product media -->
+  <section class="slot-dark" id="neural"></section>
+  <section class="slot-blue"></section>
+  <section class="slot-light" id="updates"></section>
 </main>
 
-<footer class="footer grid">
+<footer class="footer">
   <p class="wordmark">augen</p>
   <div class="footer__cols">
     <div class="footer__col">
-      <p class="label"><span class="muted">1.0</span>Pages</p>
+      <p class="label"><span>1.0</span>Pages</p>
       <ul>
-        <li><a href="#product">A<sup>1</sup> Sense</a></li>
-        <li><a href="#product">B<sup>1</sup> Eye</a></li>
-        <li><a href="#feature">A<sup>1</sup> Neuro</a></li>
+        <li><a href="#product">A¹ Sense</a></li>
+        <li><a href="#product">B¹ Eye</a></li>
+        <li><a href="#neural">A¹ Neuro</a></li>
         <li><a href="#identity">Programs</a></li>
         <li><a href="#updates">Updates</a></li>
       </ul>
     </div>
     <div class="footer__col">
-      <p class="label"><span class="muted">2.0</span>Follow</p>
+      <p class="label"><span>2.0</span>Follow</p>
       <ul>
         <li><a href="#">LinkedIn</a></li>
         <li><a href="#">X</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer__bottom">
-    <div class="footer__mark"><svg><use href="#star"/></svg></div>
-    <nav class="footer__legal" aria-label="Legal">
-      <a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Cookie Policy</a>
-    </nav>
-    <p class="footer__loc">Italy</p>
-  </div>
+  <div class="footer__mark"><svg><use href="#star"/></svg></div>
+  <nav class="footer__legal" aria-label="Legal">
+    <a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Cookie Policy</a>
+  </nav>
+  <p class="footer__loc">Italy</p>
 </footer>
 
-<script>
-  // Fade/slide elements in as they enter the viewport
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add('is-in'); revealObserver.unobserve(e.target); }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
-
-  // Highlight the row / statement line nearest the viewport centre
-  const focusObserver = new IntersectionObserver((entries) => {
-    entries.forEach((e) => e.target.classList.toggle('is-active', e.isIntersecting));
-  }, { rootMargin: '-40% 0px -40% 0px' });
-  document.querySelectorAll('.row, .statement h2 span').forEach((el) => focusObserver.observe(el));
-
-  // Hide the ticker pill once the user scrolls
-  const header = document.getElementById('header');
-  addEventListener('scroll', () => header.classList.toggle('is-scrolled', scrollY > 40), { passive: true });
-</script>
 </body>
 </html>
