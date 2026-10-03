@@ -6,7 +6,7 @@
 <title>Augen — Beyond Humanware</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400&family=Jost:wght@400&display=swap" rel="stylesheet">
 <style>
   :root {
     --color-black: #000;
@@ -22,13 +22,15 @@
     --color-white: #fff;
     --color-charcoal: #161719;
     --color-muted: #8b8b8d;
-    /* PP Neue Montreal is a licensed font; Inter Tight is the free fallback */
+    --color-mutedDark: #808183;
+    /* PP Neue Montreal is licensed; Inter Tight is the free fallback */
     --font-base: "PP Neue Montreal", "Inter Tight", "Helvetica Neue", Arial, sans-serif;
     --font-wordmark: "Jost", var(--font-base);
     --header-height: 7.9rem;
     --grid-columnCount: 5;
     --grid-gutter: 2.3980815348vw;
     --grid-outerGutter: 4.7961630695vw;
+    --grid-col: calc((100vw - 2 * var(--grid-outerGutter) - 4 * var(--grid-gutter)) / 5);
     --ease: cubic-bezier(.2, .7, .2, 1);
   }
 
@@ -59,24 +61,26 @@
   ul { list-style: none; margin: 0; padding: 0; }
   img { display: block; max-width: 100%; }
 
+  /* ---------- Grid ---------- */
   .grid {
     display: grid;
     grid-template-columns: repeat(var(--grid-columnCount), 1fr);
     column-gap: var(--grid-gutter);
     padding-inline: var(--grid-outerGutter);
+    align-content: start;
   }
-  .c2 { grid-column: 2 / 3; }
-  .c3 { grid-column: 3 / 4; }
-  .c3-end { grid-column: 3 / -1; }
-  .c2-end { grid-column: 2 / -1; }
+  .col-2 { grid-column: 2 / 3; }
+  .col-3 { grid-column: 3 / 4; }
+  .col-3-end { grid-column: 3 / -1; }
+  .col-2-end { grid-column: 2 / -1; }
 
+  /* ---------- Shared ---------- */
+  .blue { color: var(--color-blue); }
   .label { font-size: 1.5rem; line-height: 1.2; }
   .label span { display: block; font-size: 1.4rem; color: var(--color-muted); }
-  .dark .label span { color: #6d6e70; }
-  .blue { color: var(--color-blue); }
+  .is-dark .label span { color: var(--color-mutedDark); }
   .wordmark { font-family: var(--font-wordmark); font-weight: 400; letter-spacing: .01em; line-height: 1; }
 
-  /* ---------- Pills ---------- */
   .pill {
     display: inline-flex; align-items: center;
     height: 3rem; padding: 0 1.4rem;
@@ -84,24 +88,26 @@
     color: var(--color-blue); font-size: 1.6rem; letter-spacing: -.02em;
     transition: background .3s var(--ease), color .3s var(--ease);
   }
-  .pill:hover, .pill.is-filled { background: var(--color-blue); color: var(--color-white); }
-  .pill.is-filled:hover { background: transparent; color: var(--color-blue); }
+  .pill:hover, .pill.is-primary { background: var(--color-blue); color: var(--color-white); }
+  .pill.is-primary:hover { background: transparent; color: var(--color-blue); }
+
   .arrow-pill {
     display: inline-grid; place-items: center; flex: none;
     width: 2.8rem; height: 1.7rem; border: 1px solid var(--color-blue); border-radius: 99px;
     color: var(--color-blue); transition: background .3s, color .3s;
   }
   .arrow-pill svg { width: 1rem; height: .8rem; }
+  a:hover > .arrow-pill { background: var(--color-blue); color: var(--color-white); }
 
   /* ---------- Header ---------- */
   .header {
-    position: absolute; top: 4.3rem; left: 50%; transform: translateX(-50%);
-    z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 1.9rem;
+    position: absolute; top: 4.3rem; left: 50%; transform: translateX(-50%); z-index: 50;
+    display: flex; flex-direction: column; align-items: center; gap: 1.9rem;
   }
   .nav { display: flex; align-items: center; gap: .6rem; }
   .nav__logo {
     width: 5.7rem; height: 5.7rem; border-radius: 50%;
-    display: grid; place-items: center; background: var(--color-greyLight); color: var(--color-offBlack);
+    display: grid; place-items: center; background: var(--color-greyLight);
   }
   .nav__logo svg { width: 3rem; height: 3rem; }
   .nav__bar {
@@ -118,19 +124,17 @@
     width: 37.5rem; height: 3.7rem; padding: 0 1.2rem; border-radius: 1rem;
     background: var(--color-greyLight); font-size: 1.4rem; color: var(--color-muted);
   }
-  .ticker:hover .arrow-pill, .overview__link:hover .arrow-pill { background: var(--color-blue); color: var(--color-white); }
 
   /* ---------- Hero ---------- */
   .hero {
+    /* min() keeps the hero at the reference ratio when the window is very tall */
     position: relative; height: min(100vh, 74.4vw); min-height: 60rem;
     background: #fefefe; overflow: hidden;
   }
-  .hero__portrait {
-    position: absolute; left: 31.81vw; top: 13.05vw; width: 68.19vw; height: auto;
-  }
+  .hero__portrait { position: absolute; left: 31.81vw; top: 13.05vw; width: 68.19vw; }
   .hero__copy { position: absolute; left: var(--grid-outerGutter); bottom: 15.82vw; }
   .hero .wordmark { font-size: 2.8rem; }
-  .hero__title { font-size: 3.1rem; letter-spacing: -.025em; margin-top: 1.9rem; }
+  .hero__title { font-size: 3.1rem; letter-spacing: -.025em; margin-top: 1.5rem; }
   .hero__explore { display: flex; align-items: center; gap: .5rem; margin-top: 3.4rem; }
   .hero__explore > span { font-size: 1.6rem; color: var(--color-muted); margin-right: .2rem; }
   .scroll-cue {
@@ -142,7 +146,7 @@
   @keyframes bob { 50% { transform: translateY(.3rem); } }
 
   /* ---------- Overview ---------- */
-  .overview { height: 64.4rem; padding-top: 18.8rem; background: var(--color-greyLight); align-content: start; }
+  .overview { height: 64.4rem; padding-top: 18.8rem; background: var(--color-greyLight); }
   .overview__text { font-size: 3rem; line-height: 1.25; letter-spacing: -.025em; white-space: nowrap; }
   .overview__link {
     display: inline-flex; align-items: center; gap: 2.6rem; margin-top: 6.3rem;
@@ -150,7 +154,7 @@
   }
 
   /* ---------- Purpose ---------- */
-  .purpose { height: 63rem; padding-top: 9.5rem; background: var(--color-charcoal); color: var(--color-white); align-content: start; }
+  .purpose { height: 63rem; padding-top: 9.5rem; background: var(--color-charcoal); color: var(--color-white); }
   .purpose__intro { font-size: 1.6rem; line-height: 1.3; margin-bottom: 10.3rem; }
   .row { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; }
   .row .label { padding-top: .4rem; }
@@ -160,18 +164,18 @@
     transition: color .5s var(--ease);
   }
   .row:last-child h3 { border-bottom: 0; margin-bottom: 0; }
-  .row:nth-child(3) h3 { color: #c9c9ca; }
-  .row:nth-child(4) h3 { color: #8e8e90; }
+  .row.is-dim h3 { color: #c9c9ca; }
+  .row.is-dimmer h3 { color: #8e8e90; }
   .row:hover h3 { color: var(--color-white); }
 
   /* ---------- Identity ---------- */
-  .identity { height: 56.2rem; padding-top: 6.4rem; background: var(--color-offBlack); color: var(--color-white); align-content: start; }
+  .identity { height: 56.2rem; padding-top: 6.4rem; background: var(--color-offBlack); color: var(--color-white); }
   .fact .dash { display: block; width: 1rem; height: 1px; background: var(--color-blue); margin-bottom: 1.6rem; }
   .fact .muted { display: block; font-size: 1.4rem; color: var(--color-muted); }
   .fact p { margin-top: 2.4rem; font-size: 2.1rem; line-height: 1.3; letter-spacing: -.025em; }
   .divider { grid-column: 2 / -1; height: 1px; background: rgba(255, 255, 255, .18); margin-block: 10.4rem 5.6rem; }
-  .talk__items { grid-column: 3 / -1; display: flex; }
-  .talk__items > div { width: 13.26vw; }
+  .talk { grid-column: 3 / -1; display: flex; }
+  .talk > div { width: 13.26vw; }
   .acronym { font-size: 2.1rem; letter-spacing: -.02em; line-height: 1.2; }
   .acronym b { color: var(--color-blue); font-weight: 300; }
   .acronym sup { font-size: 1.4rem; vertical-align: 1rem; margin-left: .3rem; line-height: 0; }
@@ -191,35 +195,36 @@
   .device { width: 29rem; margin-top: 6.9rem; animation: float 6s ease-in-out infinite; }
   @keyframes float { 50% { transform: translateY(-.8rem); } }
   .product__cta {
+    /* right edge sits on the end of grid column 4 */
     position: absolute; top: 78.4rem;
-    right: calc(var(--grid-outerGutter) + (100vw - 2 * var(--grid-outerGutter) - 4 * var(--grid-gutter)) / 5 + var(--grid-gutter));
+    right: calc(var(--grid-outerGutter) + var(--grid-col) + var(--grid-gutter));
     display: flex; flex-direction: column; align-items: flex-end; gap: 2.8rem;
   }
   .product__cta div { display: flex; gap: .8rem; }
   .product__cta .pill { height: 2.8rem; }
 
-  /* ---------- Content slots (empty in the reference; filled by scroll-driven media on the live site) ---------- */
+  /* ---------- Content slots (empty in the reference; scroll-driven media on the live site) ---------- */
   .slot-dark { height: 122.5rem; background: var(--color-offBlack); }
   .slot-blue { height: 46.7rem; background: var(--color-blue); }
   .slot-light { height: 46.1rem; background: var(--color-offWhite); }
 
   /* ---------- Footer ---------- */
   .footer {
-    position: relative; height: 62.1rem; padding: 3.6rem var(--grid-outerGutter) 0;
+    --footer-col: calc(var(--grid-outerGutter) + (100vw - 2 * var(--grid-outerGutter)) * .5758);
+    position: relative; height: 62.1rem; padding: 3.2rem var(--grid-outerGutter) 0;
     background: var(--color-offBlack); color: var(--color-white);
   }
   .footer .wordmark { font-size: 3.5rem; }
-  .footer__cols { position: absolute; top: 4.2rem; left: calc(var(--grid-outerGutter) + 57.58%  * (1 - 2 * 0.047961630695)); }
+  .footer__cols { position: absolute; top: 4.2rem; left: var(--footer-col); }
   .footer__col { display: flex; }
   .footer__col + .footer__col { margin-top: 11.1rem; }
   .footer__col .label { width: 13.5rem; padding-top: .3rem; }
-  .footer__col .label span { color: #6d6e70; }
   .footer__col ul a { font-size: 3.1rem; line-height: 1.21; letter-spacing: -.035em; transition: color .25s; }
   .footer__col ul a:hover { color: var(--color-blue); }
   .footer__mark { position: absolute; left: var(--grid-outerGutter); top: 51.8rem; color: #5b5c5e; }
   .footer__mark svg { width: 6.6rem; height: 6.6rem; }
   .footer__legal {
-    position: absolute; top: 56.9rem; left: calc(var(--grid-outerGutter) + 57.58% * (1 - 2 * 0.047961630695));
+    position: absolute; top: 56.9rem; left: var(--footer-col);
     display: flex; gap: 2.1rem; font-size: 1.6rem; color: #9a9b9d; letter-spacing: -.03em;
   }
   .footer__legal a:hover { color: var(--color-white); }
@@ -228,31 +233,35 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 800px) {
     :root { --grid-outerGutter: 1.6rem; --grid-gutter: 1.2rem; }
-    .header { position: absolute; top: 1.6rem; width: calc(100% - 3.2rem); }
+    .header { top: 1.6rem; width: calc(100% - 3.2rem); }
     .nav { width: 100%; }
     .nav__logo { width: 4.4rem; height: 4.4rem; flex: none; }
     .nav__bar { flex: 1; height: 4.4rem; padding: 0 .4rem; justify-content: space-between; }
     .nav__bar a { width: auto; padding: 0 .8rem; font-size: 1.4rem; }
-    .nav__bar a.hide-sm { display: none; }
+    .nav__bar .hide-sm { display: none; }
     .ticker { width: 100%; justify-content: space-between; gap: 1rem; font-size: 1.3rem; }
     .hero { height: 100svh; }
-    .hero__portrait { left: -4vw; top: 14vh; width: 125vw; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+    .hero__portrait {
+      left: -4vw; top: 14vh; width: 125vw;
+      -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent);
+    }
     .hero__copy { bottom: 14rem; }
     .scroll-cue { bottom: 4rem; }
     .overview, .purpose, .identity, .product, .footer { height: auto; padding-bottom: 10rem; }
-    .overview .label, .purpose .label, .identity .label { grid-column: 1 / -1; margin-bottom: 2.4rem; }
-    .c3-end, .c2-end, .c3, .divider, .talk__items { grid-column: 1 / -1; }
+    .grid > .label { grid-column: 1 / -1; margin-bottom: 2.4rem; }
+    .col-3, .col-3-end, .col-2-end, .divider, .talk { grid-column: 1 / -1; }
     .overview__text { font-size: 2.4rem; white-space: normal; }
     .overview__text br { display: none; }
     .row { display: block; }
     .row h3 { font-size: 2.4rem; margin-top: 1.2rem; }
-    .identity .fact { grid-column: 1 / -1; margin-bottom: 4rem; }
+    .fact { grid-column: 1 / -1; margin-bottom: 4rem; }
     .fact p { margin-top: 1.6rem; }
     .divider { margin-block: 2rem 4rem; }
-    .talk__items { gap: 2rem; }
-    .talk__items > div { width: auto; flex: 1; }
+    .talk { gap: 2rem; }
+    .talk > div { width: auto; flex: 1; }
     .product__cta { position: static; align-self: flex-end; margin: 6rem 1.6rem 0 0; }
-    .slot-dark { height: 60rem; } .slot-blue, .slot-light { height: 30rem; }
+    .slot-dark { height: 60rem; }
+    .slot-blue, .slot-light { height: 30rem; }
     .footer__cols, .footer__legal, .footer__mark, .footer__loc { position: static; }
     .footer__cols { margin-top: 6rem; }
     .footer__col + .footer__col { margin-top: 6rem; }
@@ -271,9 +280,8 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="star" viewBox="0 0 40 40">
-    <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none">
-      <path d="M20 2v13M20 25v13M2 20h13M25 20h13M7.3 7.3l9.2 9.2M23.5 23.5l9.2 9.2M32.7 7.3l-9.2 9.2M16.5 23.5l-9.2 9.2"/>
-    </g>
+    <path d="M20 2v13M20 25v13M2 20h13M25 20h13M7.3 7.3l9.2 9.2M23.5 23.5l9.2 9.2M32.7 7.3l-9.2 9.2M16.5 23.5l-9.2 9.2"
+          fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
   </symbol>
   <symbol id="arrow-r" viewBox="0 0 10 8"><path d="M0 4h9M6 1l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
 </svg>
@@ -312,8 +320,8 @@
   </section>
 
   <section class="overview grid" id="overview">
-    <p class="label c2"><span>Overview</span>Breakthrough</p>
-    <div class="c3-end">
+    <p class="label col-2"><span>Overview</span>Breakthrough</p>
+    <div class="col-3-end">
       <p class="overview__text">
         Augen Pro is the first to engineer<br>AI-driven,<br>general-purpose Computing<br>designed<br>
         <span class="blue">to improve people’s life.</span>
@@ -322,20 +330,20 @@
     </div>
   </section>
 
-  <section class="purpose grid dark" id="purpose">
-    <p class="purpose__intro c3-end">At Augen Pro<br><span class="blue">We make humans better</span></p>
-    <div class="row"><p class="label c2"><span>0.1</span>Our Mission</p><h3>Smarter, smaller AI health tools</h3></div>
-    <div class="row"><p class="label c2"><span>0.2</span>Our Vision</p><h3>Lead the future of Invisible Computing</h3></div>
-    <div class="row"><p class="label c2"><span>0.3</span>Our Ambition</p><h3>Simplify Heads-Up Computing</h3></div>
+  <section class="purpose grid is-dark" id="purpose">
+    <p class="purpose__intro col-3-end">At Augen Pro<br><span class="blue">We make humans better</span></p>
+    <div class="row"><p class="label col-2"><span>0.1</span>Our Mission</p><h3>Smarter, smaller AI health tools</h3></div>
+    <div class="row is-dim"><p class="label col-2"><span>0.2</span>Our Vision</p><h3>Lead the future of Invisible Computing</h3></div>
+    <div class="row is-dimmer"><p class="label col-2"><span>0.3</span>Our Ambition</p><h3>Simplify Heads-Up Computing</h3></div>
   </section>
 
-  <section class="identity grid dark" id="identity">
-    <div class="fact c3"><span class="dash"></span><span class="muted">Industries</span><p>Wearable &amp; Neural<br>technologies</p></div>
+  <section class="identity grid is-dark" id="identity">
+    <div class="fact col-3"><span class="dash"></span><span class="muted">Industries</span><p>Wearable &amp; Neural<br>technologies</p></div>
     <div class="fact"><span class="dash"></span><span class="muted">Core Business</span><p>AI Wearable<br>technologies</p></div>
     <div class="fact"><span class="dash"></span><span class="muted">Domain</span><p>augen.pro</p></div>
     <div class="divider"></div>
-    <p class="label c2"><span>0.4</span>How We Talk</p>
-    <div class="talk__items">
+    <p class="label col-2"><span>0.4</span>How We Talk</p>
+    <div class="talk">
       <div><p class="acronym"><b>[</b> Pha<sup>1</sup> <b>]</b></p><p>Pro Humanity Approach</p></div>
       <div><p class="acronym"><b>[</b> ICT<sup>2</sup> <b>]</b></p><p>Invisible Computing Technologies</p></div>
       <div><p class="acronym"><b>[</b> AIWC<sup>3</sup> <b>]</b></p><p>Artificial Intelligence Wearable Company</p></div>
@@ -349,7 +357,7 @@
     <div class="product__cta">
       <p>Explore in depth</p>
       <div>
-        <a class="pill is-filled" href="#neural">A¹ Sense</a>
+        <a class="pill is-primary" href="#neural">A¹ Sense</a>
         <a class="pill" href="#neural">B¹ Eye</a>
       </div>
     </div>
@@ -361,7 +369,7 @@
   <section class="slot-light" id="updates"></section>
 </main>
 
-<footer class="footer">
+<footer class="footer is-dark">
   <p class="wordmark">augen</p>
   <div class="footer__cols">
     <div class="footer__col">
